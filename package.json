@@ -1,0 +1,17 @@
+{
+  "name": "bank_server",
+  "version": "1.0.0",
+  "description": "banks_routes_controllers_modle_db",
+  "main": "index.js",
+  "author": "justice sowah",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon ."
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.9"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
