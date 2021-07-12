@@ -7,26 +7,39 @@ const createBanksController = (req, res) => {
 
     let bank = new BankModel({name,location,branch,phone,address,accountNumber});
 
-    bank.save();
+    bank.save().then(result => {
+        res.json({message: 'create successful', data: result});
+    }).catch(error => console.log(error));
 
-    res.json({message: 'create successful', data:bank});
+    
 }
 //create banks controller
 const viewBankController = (req, res) => {
-    let banks = BankModel.all();
-    res.json({data:banks})
+    const {id} = req.params;
+
+    if (id){
+        BankModel.find({_id: id}).then(results =>{
+            res.json({data: results});
+        }).catch(err => console.log(error));
+    }else{
+        BankModel.find().then(results =>{
+            res.json({data: results});
+        }).catch(err => console.log(error));
+    }
+    
+    
 }
 //create banks controller
-const updateBankController = (req, res) => {
+/* const updateBankController = (req, res) => {
     let {name,location,branch,phone,address,accountNumber} = req.body;
 
     let updatedBank = BankModel.update({name,location,branch,phone,address,accountNumber});
 
     res.json({message: 'bank updated successfully', data:updatedBank});
 
-}
+} */
 //create banks controller
-const deleteBankController = (req, res) => {
+/* const deleteBankController = (req, res) => {
 
     const {name} =req.body;
 
@@ -34,11 +47,11 @@ const deleteBankController = (req, res) => {
 
     res.json({message: 'bank deleted successfully', data:deletedBank})
 
-}
+} */
 
 module.exports = {
     createBanksController,
     viewBankController,
-    updateBankController,
-    deleteBankController
+    //updateBankController,
+    //deleteBankController
 }

@@ -1,8 +1,9 @@
 // importing packages
 const express = require('express');
+const mongoose = require('mongoose');
 //const bodyParser = require('body-parser');
 //importing controllers
-let {createBanksController,viewBankController,updateBankController,deleteBankController} = require('./controllers');
+let {createBanksController, viewBankController} = require('./controllers');
 
 //creating express server instance
 const server = express();
@@ -15,11 +16,14 @@ server.use(express.json());
 //create bank
 server.post('/bank', createBanksController);
 //view banks
-server.get('/bank', viewBankController);
+server.get('/bank/:id?', viewBankController);
 //update banks
-server.put('/bank', updateBankController);
+//server.put('/bank', updateBankController);
 //delete banks
-server.delete('/bank', deleteBankController);
+//server.delete('/bank', deleteBankController);
 
-//starting server
-server.listen(3000, ()=> console.log('server is ready'))
+//connecting to database and starting server
+mongoose.connect("mongodb+srv://salis:salis01@cluster0.wu29m.mongodb.net/banksServerDB?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true})
+.then(result =>{
+    server.listen(3000, ()=> console.log('server is ready'))
+}).catch(err => console.log(err));
