@@ -7,8 +7,10 @@ const BankModel = require('../models/bank');
 
 const router = express.Router();
 
+const isAuth = require('../middlewares/is-auth')
+
 //create bank
-router.post('/bank', [
+router.post('/banks', isAuth, [
     body('name').trim().not().isEmpty().withMessage('name cannot be empty'),
     body('location').trim().not().isEmpty().withMessage('location cannot be empty'),
     body('branch').trim().not().isEmpty().withMessage('branch cannot be empty'),
@@ -24,10 +26,10 @@ router.post('/bank', [
     })
 ], createBanksController);
 //view banks
-router.get('/bank/:id?', viewBankController);
+router.get('/banks/:id?', isAuth, viewBankController);
 //update banks
-router.put('/bank', updateBankController);
+router.put('/banks', isAuth, updateBankController);
 //delete banks
-router.delete('/bank', deleteBankController);
+router.delete('/banks', isAuth, deleteBankController);
 
 module.exports = router;

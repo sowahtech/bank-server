@@ -4,6 +4,8 @@ const {validationResult} = require('express-validator');
 
 const bcrypt = require('bcryptjs');
 
+const jwt = require('jsonwebtoken');
+
 const signupController = (req, res) => {
     //check for errors
 	const errors = validationResult(req);
@@ -53,7 +55,12 @@ const signinController = async (req, res) => {
             return res.json({message: "email and password combination is incorrect"})
         }
 
-        return res.json({message: 'user signed in correctly'});
+        const token = jwt.sign(
+            {name: user.name, email: user.email, userId: user._id},
+            "supersecretkeythatcannotbeeasilyguessed",
+            {expiresIn: "1h"})
+
+        return res.json({message: 'user signed in correctly', token});
         
     } catch (error) {
 

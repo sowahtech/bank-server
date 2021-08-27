@@ -8,7 +8,9 @@ const {createAccountController, listAccountsController} = require('../controller
 
 const router = express.Router();
 
-router.post('/account',[
+const isAuth = require('../middlewares/is-auth');
+
+router.post('/accounts', isAuth, [
     body('name').trim().not().isEmpty().withMessage('name cannot be empty'),
     body('number').trim().not().isEmpty().isNumeric().isLength({min: 10})
     .custom((value, {req}) =>{
@@ -24,6 +26,6 @@ router.post('/account',[
     body('bankId').trim().not().isEmpty().isAlphanumeric().isLength({min: 24}).withMessage('bankId must be at least 24 characters long')    
 ], createAccountController);
 
-router.get('/accounts', listAccountsController);
+router.get('/accounts', isAuth, listAccountsController);
 
 module.exports = router;
